@@ -11,5 +11,4 @@
 
 
 module load devtoolset/10 mpi/open-mpi-4.1.6
-# mpirun ./test
-mpirun -host creek01,creek06,creek05,creek04 -np 4 ./test
+mpirun ./test
