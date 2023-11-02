@@ -19,7 +19,7 @@ N;12;Runtime own Barrier;2.483188;us;Runtime MPI Barrier;2.231303;us;iterations;
 N;14;Runtime own Barrier;22.452547;us;Runtime MPI Barrier;201.712143;us;iterations;100000
 N;16;Runtime own Barrier;27.163632;us;Runtime MPI Barrier;85.822417;us;iterations;100000
 N;18;Runtime own Barrier;64.700915;us;Runtime MPI Barrier;152.841383;us;iterations;100000
-;20;Runtime own Barrier;73.834486;us;Runtime MPI Barrier;162.069076;us;iterations;100000
+N;20;Runtime own Barrier;73.834486;us;Runtime MPI Barrier;162.069076;us;iterations;100000
 N;22;Runtime own Barrier;68.622790;us;Runtime MPI Barrier;193.550739;us;iterations;100000
 N;24;Runtime own Barrier;81.522209;us;Runtime MPI Barrier;176.459270;us;iterations;100000
 N;2;Runtime own Barrier;0.747611;us;Runtime MPI Barrier;0.276775;us;iterations;1000000
@@ -28,7 +28,6 @@ N;6;Runtime own Barrier;1.687730;us;Runtime MPI Barrier;2.055483;us;iterations;1
 N;8;Runtime own Barrier;1.487327;us;Runtime MPI Barrier;1.304282;us;iterations;1000000
 N;10;Runtime own Barrier;1.986077;us;Runtime MPI Barrier;2.627684;us;iterations;1000000
 N;12;Runtime own Barrier;2.427824;us;Runtime MPI Barrier;2.024024;us;iterations;1000000
-N;14;Runtime own Barrier;23.224396;us;Runtime MPI Barrier;202.452345;us;iterations;1000000
 N;14;Runtime own Barrier;22.769131;us;Runtime MPI Barrier;191.083306;us;iterations;1000000
 N;16;Runtime own Barrier;34.900425;us;Runtime MPI Barrier;87.016756;us;iterations;1000000
 N;18;Runtime own Barrier;63.458951;us;Runtime MPI Barrier;153.038302;us;iterations;1000000
