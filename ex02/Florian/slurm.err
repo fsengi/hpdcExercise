@@ -1,0 +1,86 @@
+mpi(8):ERROR:105: Unable to locate a modulefile for 'mpi/open-mpi-4.1.6'
+mpi(8):ERROR:105: Unable to locate a modulefile for 'mpi/open-mpi-4.1.6'
+[octane001:25283] *** Process received signal ***
+[octane001:25257] *** Process received signal ***
+[octane001:25283] Signal: Segmentation fault ([octane002:10253] *** Process received signal ***
+[octane002:10253] Signal: Segmentation fault (11)
+[octane002:10253] Signal code: Address not mapped (1)
+[octane002:10253] Failing at address: 0x3fd2c8000358
+[octane002:10253] [ 0] /lib64/libpthread.so.0(+0xf630)[0x7f84daa69630]
+[octane002:10253] [ 1] /share/bsoproni/openmpi4-pmi/lib/libopen-pal.so.40(+0xc1521)[0x7f84db85e521]
+[octane002:10253] [ 2] /share/bsoproni/openmpi4-pmi/lib/libopen-pal.so.40(+0xc15d2)[0x7f84db85e5d2]
+[octane002:10253] [ 3] /share/bsoproni/openmpi4-pmi/lib/libopen-pal.so.40(+0xc3d56)[0x7f84db860d56]
+[octane002:10253] [ 4] /share/bsoproni/openmpi4-pmi/lib/libopen-pal.so.40(opal_hwloc201_hwloc_shmem_topology_write+0xda)[0x7f84db83a7ca]
+[octane002:10253] [ 5] /share/bsoproni/openmpi4-pmi/lib/openmpi/mca_rtc_hwloc.so(+0x2c72)[0x7f84ce3c8c72]
+[octane002:10253] [ 6] /share/bsoproni/openmpi4-pmi/lib/libopen-rte.so.40(orte_rtc_base_select+0xdb)[0x7f84dbb38a5b]
+[octane002:10253] [ 7] /share/bsoproni/openmpi4-pmi/lib/openmpi/mca_ess_hnp.so(+0x4faf)[0x7f84d9468faf]
+[octane002:10253] [ 8] /share/bsoproni/openmpi4-pmi/lib/libopen-rte.so.40(orte_init+0x295)[0x7f84dbb40f95]
+[octane002:10253] [ 9] /share/bsoproni/openmpi4-pmi/lib/libopen-rte.so.40(orte_submit_init+0x56c)[0x7f84dbaf1dec]
+[octane002:10253] [10] mpirun[0x400e3f]
+[octane002:10253] [11] /lib64/libc.so.6(__libc_start_main+0xf5)[0x7f84da6ae555]
+[octane002:10253] [12] mpirun[0x400cee]
+[octane002:10253] *** End of error message ***
+ni/openmpi4-pmi/lib/libopen-pal.so.40(+0xc3d56)[0x7f9d20b32d56]
+/share/bsoproni/openmpi4-pmi/lib/libopen-pal.so.40(+0xc3d56)[0x7f1ea6befd56]
+[octane001:25257] [ 4] [octane001:25283] [ 4] /share/bsoproni/openmpi4-pmi/lib/libopen-pal.so.40(opal_hwloc201_hwloc_shmem_topology_write+0xda)[0x7f9d20b0c7ca]
+/share/bsoproni/openmpi4-pmi/lib/libopen-pal.so.40(opal_hwloc201_hwloc_shmem_topology_write+0xda)[0x7fc5f94d47ca]
+[octane001:25257] [octane001:25261] [ 5] [ 5] /share/bsoproni/openmpi4-pmi/lib/openmpi/mca_rtc_hwloc.so(+0x2c72)[0x7f9d135e8c72]
+/share/bsoproni/openmpi4-pmi/lib/libopen-pal.so.40(opal_hwloc201_hwloc_shmem_topology_write+0xda)[0x7f1ea6bc97ca]
+/share/bsoproni/openmpi4-pmi/lib/openmpi/mca_rtc_hwloc.so(+0x2c72)[0x7fc5f0064c72]
+[octane001:25257] [octane001:25283] [octane001:25261] [ 5] [ 6] [ 6] /share/bsoproni/openmpi4-pmi/lib/openmpi/mca_rtc_hwloc.so(+0x2c72)[0x7f1e9d759c72]
+[octane001:25283] [ 6] /share/bsoproni/openmpi4-pmi/lib/libopen-rte.so.40(orte_rtc_base_select+0xdb)[0x7f9d20e0aa5b]
+/share/bsoproni/openmpi4-pmi/lib/libopen-rte.so.40(orte_rtc_base_select+0xdb)[0x7fc5f97d2a5b]
+[octane001:25257] [octane001:25261] [ 7] /share/bsoproni/openmpi4-pmi/lib/libopen-rte.so.40(orte_rtc_base_select+0xdb)[0x7f1ea6ec7a5b]
+[ 7] /share/bsoproni/openmpi4-pmi/lib/openmpi/mca_ess_hnp.so(+0x4faf)[0x7f9d1e73afaf]
+[octane001:25283] /share/bsoproni/openmpi4-pmi/lib/openmpi/mca_ess_hnp.so(+0x4faf)[0x7fc5f7102faf]
+[octane001:25257] [ 7] [ 8] [octane001:25261] /share/bsoproni/openmpi4-pmi/lib/openmpi/mca_ess_hnp.so(+0x4faf)[0x7f1ea47f7faf]
+[ 8] [octane001:25283] [ 8] /share/bsoproni/openmpi4-pmi/lib/libopen-rte.so.40(orte_init+0x295)[0x7f9d20e12f95]
+[octane001:25257] /share/bsoproni/openmpi4-pmi/lib/libopen-rte.so.40(orte_init+0x295)[0x7fc5f97daf95]
+[ 9] /share/bsoproni/openmpi4-pmi/lib/libopen-rte.so.40(orte_init+0x295)[0x7f1ea6ecff95]
+[octane001:25261] [octane001:25283] [ 9] [ 9] /share/bsoproni/openmpi4-pmi/lib/libopen-rte.so.40(orte_submit_init+0x56c)[0x7f9d20dc3dec]
+[octane001:25257] [10] /share/bsoproni/openmpi4-pmi/lib/libopen-rte.so.40(orte_submit_init+0x56c)[0x7fc5f978bdec]
+/share/bsoproni/openmpi4-pmi/lib/libopen-rte.so.40(orte_submit_init+0x56c)[0x7f1ea6e80dec]
+mpirun[0x400e3f]
+[octane001:25261] [octane001:25283] [10] [10] [octane001:25257] mpirun[0x400e3f]
+[11] mpirun[0x400e3f]
+[octane001:25261] [octane001:25283] [11] [11] /lib64/libc.so.6(__libc_start_main+0xf5)[0x7f9d1f980555]
+[octane001:25257] [12] mpirun[0x400cee]
+[octane001:25257] *** End of error message ***
+/lib64/libc.so.6(__libc_start_main+0xf5)[0x7fc5f8348555]
+/lib64/libc.so.6(__libc_start_main+0xf5)[0x7f1ea5a3d555]
+[octane001:25261] [octane001:25283] [12] [12] mpirun[0x400cee]
+mpirun[0x400cee]
+[octane001:25261] *** End of error message ***
+[octane001:25283] *** End of error message ***
+/var/spool/slurmd/job895648/slurm_script: line 15: 25257 Segmentation fault      mpirun ./test
+/var/spool/slurmd/job895651/slurm_script: line 15: 25261 Segmentation fault      mpirun ./test
+
+
+**********************************************************
+
+mpirun does not support recursive calls
+
+**********************************************************
+
+
+**********************************************************
+
+mpirun does not support recursive calls
+
+**********************************************************
+
+
+**********************************************************
+
+mpirun does not support recursive calls
+
+**********************************************************
+/var/spool/slurmd/job895652/slurm_script: line 15: 25283 Segmentation fault      mpirun ./test
+/var/spool/slurmd/job895654/slurm_script: line 15: 10253 Segmentation fault      mpirun ./test
+
+
+**********************************************************
+
+mpirun does not support recursive calls
+
+**********************************************************

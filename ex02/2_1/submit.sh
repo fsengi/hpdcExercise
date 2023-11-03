@@ -10,5 +10,7 @@
 #SBATCH --error=slurm.err      # file to collect standard errors
 
 
-module load devtoolset/10 mpi/open-mpi-4.1.6
+module load devtoolset/10 mpi/open-mpi-4.0.5
 mpirun ./test
+# srun --ntasks=1 --nodelist= octane05,octane06,octane07,octane08 ./test
+# mpirun -host octane05,octane06,octane07,octane08  -np 4 ./test
