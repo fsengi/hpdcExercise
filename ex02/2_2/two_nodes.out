@@ -1,0 +1,11 @@
+Running on two nodes with message size 1024 bytes
+Running on two nodes with message size 2048 bytes
+Running on two nodes with message size 4096 bytes
+Running on two nodes with message size 8192 bytes
+Running on two nodes with message size 16384 bytes
+Running on two nodes with message size 32768 bytes
+Running on two nodes with message size 65536 bytes
+Running on two nodes with message size 131072 bytes
+Running on two nodes with message size 262144 bytes
+Running on two nodes with message size 524288 bytes
+Running on two nodes with message size 1048576 bytes
