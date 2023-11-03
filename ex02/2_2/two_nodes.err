@@ -1,11 +1,1 @@
-srun: error: Unable to create step for job 897081: Requested node configuration is not available
-srun: error: Unable to create step for job 897081: Requested node configuration is not available
-srun: error: Unable to create step for job 897081: Requested node configuration is not available
-srun: error: Unable to create step for job 897081: Requested node configuration is not available
-srun: error: Unable to create step for job 897081: Requested node configuration is not available
-srun: error: Unable to create step for job 897081: Requested node configuration is not available
-srun: error: Unable to create step for job 897081: Requested node configuration is not available
-srun: error: Unable to create step for job 897081: Requested node configuration is not available
-srun: error: Unable to create step for job 897081: Requested node configuration is not available
-srun: error: Unable to create step for job 897081: Requested node configuration is not available
-srun: error: Unable to create step for job 897081: Requested node configuration is not available
+mpi(8):ERROR:105: Unable to locate a modulefile for 'mpi/open-mpi-4.1.6'

@@ -1,11 +1,22 @@
 Running on two nodes with message size 1024 bytes
+Message Size: 1024 bytes, Latency: 104.063767 microseconds
 Running on two nodes with message size 2048 bytes
+Message Size: 2048 bytes, Latency: 81.249979 microseconds
 Running on two nodes with message size 4096 bytes
+Message Size: 4096 bytes, Latency: 130.756240 microseconds
 Running on two nodes with message size 8192 bytes
+Message Size: 8192 bytes, Latency: 229.239296 microseconds
 Running on two nodes with message size 16384 bytes
+Message Size: 16384 bytes, Latency: 242.995722 microseconds
 Running on two nodes with message size 32768 bytes
+Message Size: 32768 bytes, Latency: 424.626317 microseconds
 Running on two nodes with message size 65536 bytes
+Message Size: 65536 bytes, Latency: 916.556483 microseconds
 Running on two nodes with message size 131072 bytes
+Message Size: 131072 bytes, Latency: 1497.315557 microseconds
 Running on two nodes with message size 262144 bytes
+Message Size: 262144 bytes, Latency: 2468.346659 microseconds
 Running on two nodes with message size 524288 bytes
+Message Size: 524288 bytes, Latency: 4761.808799 microseconds
 Running on two nodes with message size 1048576 bytes
+Message Size: 1048576 bytes, Latency: 9912.887564 microseconds
