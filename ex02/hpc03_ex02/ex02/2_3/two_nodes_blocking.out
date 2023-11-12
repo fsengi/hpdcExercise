@@ -1,0 +1,12 @@
+Running iteration 1
+Message size: 1024 bytes, Bandwidth: 34.827479 MB/s
+Message size: 2048 bytes, Bandwidth: 151.170666 MB/s
+Message size: 4096 bytes, Bandwidth: 352.199982 MB/s
+Message size: 8192 bytes, Bandwidth: 473.456154 MB/s
+Message size: 16384 bytes, Bandwidth: 849.600348 MB/s
+Message size: 32768 bytes, Bandwidth: 1569.484205 MB/s
+Message size: 65536 bytes, Bandwidth: 255.975492 MB/s
+Message size: 131072 bytes, Bandwidth: 571.653313 MB/s
+Message size: 262144 bytes, Bandwidth: 869.522875 MB/s
+Message size: 524288 bytes, Bandwidth: 298.006101 MB/s
+Message size: 1048576 bytes, Bandwidth: 198.409392 MB/s
