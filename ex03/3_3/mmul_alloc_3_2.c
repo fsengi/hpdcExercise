@@ -29,7 +29,7 @@ int main(int argc ,char * argv[])
     clock_t start, end = 0;
     double cpu_time_used = 0;
     MPI_Status status;
-    double *A, *B, *B_transposed, *C, *a_sub, *b_transposed_sub, *c_sub;
+    double *A, *B, *B_transposed, *C;
 
     MPI_Init(&argc, &argv);
     MPI_Comm_size(MPI_COMM_WORLD, &number_of_processes);
@@ -45,15 +45,6 @@ int main(int argc ,char * argv[])
         B_transposed = (double*)malloc(size * size * sizeof(double));
         B = (double*)malloc(size * size * sizeof(double));
         C = (double*)malloc(size * size * sizeof(double));
-    }else
-    {
-        a_sub = (double*)malloc(size * datarowsPerThread * sizeof(double));
-        b_transposed_sub = (double*)malloc(size * size * sizeof(double));
-        c_sub = (double*)malloc(size * datarowsPerThread * sizeof(double));
-    }
-
-    if(rank == 0)
-    {
 
         srand(time(NULL));   // Initialization, should only be called once.
         initRandMatrix(A, B, B_transposed, size);
@@ -187,15 +178,3 @@ void printOut(char* name, double* a, int size)
         printf("\n");
     }
 }
-// void transposeMatrix(double a , int size)
-// {
-//     double buffer ;
-//     for(int i = 0; i < size; i++)
-//     {
-//         for(int j = 0; j < size; j++)
-//         {
-//             // Generate a random double between 0.0 and 1.0
-//             buffer[j][i] = a[i][j];
-//         }
-//     }
-// }
