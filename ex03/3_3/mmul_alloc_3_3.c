@@ -110,7 +110,7 @@ int main(int argc ,char * argv[])
 
         stop = MPI_Wtime();
         double time_taken = (double) stop - start;
-        double gflops = (2 * size*size*size) / (time_taken*1e9); 
+        double gflops = (2.0 * size * size * size) / (time_taken * 1e9); 
         printf("size;%d;time;%f;s;performance;%f;GFLOPS/s\n",size, time_taken, gflops);
 
         double sum = sumMatrix(C, size);
@@ -136,6 +136,8 @@ int main(int argc ,char * argv[])
         free(c_sub);
     }
     // MPI_Barrier(MPI_COMM_WORLD);
+
+    printf("Matrix multiplication completed.\n");
     
 }
 
