@@ -18,10 +18,10 @@ void printOutSub(char* name, double* a, int size, int datarows);
 int main(int argc ,char * argv[])
 {   
     int rank, number_of_processes;
-    int size = 0;  // Set default size to 0
+    int size, relsize = 0;  // Set default size to 0
     double cpu_time_used = 0;
     double *A, *B, *B_trans, *C, *a_sub, *b_trans_sub, *c_sub;
-    clock_t start, end = 0;
+    double start, stop = 0;
     MPI_Status status;
 
     MPI_Init(&argc, &argv);
@@ -33,9 +33,10 @@ int main(int argc ,char * argv[])
         // get args
         if (argc > 1) {
             size = atoi(argv[1]);  // Parse size from command line argument
+            relsize = atoi(argv[2]);
         } else {
-        
             size = N;
+            relsize = N;
         }
 
         int i;
@@ -49,10 +50,14 @@ int main(int argc ,char * argv[])
         MPI_Recv(&size, sizeof(size)/sizeof(int), MPI_INT, MPI_ANY_SOURCE, 0, MPI_COMM_WORLD, &status);
     }
     MPI_Barrier(MPI_COMM_WORLD);
-    printf("size: %d\n", size);
+    // printf("size: %d\n", size);
    
     int datarowsPerThread = (int)(size / number_of_processes);
-    printf("datarowsPerThread: %d\n", datarowsPerThread);
+    // if(rank == number_of_processes)
+    // {
+    //     datarowsPerThread += size % datarowsPerThread;
+    // }
+    // printf("datarowsPerThread: %d\n", datarowsPerThread);
     if(rank == 0)
     {
         // setup matrices
@@ -65,10 +70,11 @@ int main(int argc ,char * argv[])
         c_sub = (double*)malloc(datarowsPerThread * size * sizeof(double));
         initMatrix(A, B, B_trans, size);
         init0Matrix(C, size);
-        printOut("Btrans", B_trans, size);
+        // printOut("Btrans", B_trans, size);
     }
     else
     {
+        B_trans = (double*)malloc(size * size * sizeof(double));
         a_sub = (double*)malloc(size * datarowsPerThread * sizeof(double)+1);
         b_trans_sub = (double*)malloc(size * size * sizeof(double)+1);
         c_sub = (double*)malloc(size * datarowsPerThread * sizeof(double)+1);
@@ -76,21 +82,40 @@ int main(int argc ,char * argv[])
        
     MPI_Scatter(A, size * datarowsPerThread, MPI_DOUBLE, a_sub, size * datarowsPerThread, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 
+    // MPI_Bcast(B_trans, size * datarowsPerThread, MPI_DOUBLE, b_trans_sub, size * datarowsPerThread, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+    MPI_Bcast(B_trans, size * size, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+
+    if(rank == 0)
+    {
+        start = MPI_Wtime();
+    }
+
     MPI_Scatter(B_trans, size * datarowsPerThread, MPI_DOUBLE, b_trans_sub, size * datarowsPerThread, MPI_DOUBLE, 0, MPI_COMM_WORLD);
     
     MPI_Barrier(MPI_COMM_WORLD);
     // printf("B: %f, %d", B_trans, size*datarowsPerThread);
     
-    matrixMultiplyTransposeDist(a_sub , b_trans_sub , c_sub, datarowsPerThread, size);
+    matrixMultiplyTransposeDist(a_sub , B_trans , c_sub, datarowsPerThread, size);
 
     MPI_Gather(c_sub, size * datarowsPerThread, MPI_DOUBLE, C, size * datarowsPerThread, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+    
+    MPI_Finalize();
+
     if(rank == 0)
     {
         // printOut("C",C,size);
-        printOutSub("B", B_trans, size, datarowsPerThread);
-        printOutSub("A", A, size, datarowsPerThread);
-        printOutSub("C", C, size, datarowsPerThread);
+        // printOutSub("B", B_trans, size, datarowsPerThread);
+        // printOutSub("A", A, size, datarowsPerThread);
+        // printOutSub("C", C, size, size);
 
+        stop = MPI_Wtime();
+        double time_taken = (double) stop - start;
+        double gflops = (2 * size*size*size) / (time_taken*1e9); 
+        printf("size;%d;time;%f;s;performance;%f;GFLOPS/s\n",size, time_taken, gflops);
+
+        double sum = sumMatrix(C, size);
+
+        printf("sum: %f", sum);
 
         free(A);
         free(B);
@@ -104,16 +129,13 @@ int main(int argc ,char * argv[])
     {
 
         // printOut("a", a_sub, size*datarowsPerThread);
-        printOutSub("c", c_sub, size, datarowsPerThread);
+        // printf("c rank: %d datarowsPerThread: %d", rank,datarowsPerThread );
+        // printOutSub("c", c_sub, size, datarowsPerThread);
         free(a_sub);
         free(b_trans_sub);
         free(c_sub);
     }
-
-   
-    
     // MPI_Barrier(MPI_COMM_WORLD);
-    MPI_Finalize();
     
 }
 
@@ -157,9 +179,9 @@ void initMatrix(double* a, double* b, double* b_trans, int size)
             b[(row * size) + col] = row * col;
 
             b_trans[(size * col) + row] = b[(row * size) + col];
-            printf("%f ", a[(row * size) + col]);
+            // printf("%f ", a[(row * size) + col]);
         }
-        printf("\n");
+        // printf("\n");
     }
 }
 
@@ -249,7 +271,7 @@ void matrixMultiplyTransposeDist(double* a, double* b_trans, double* c, int data
         {
             for(k = 0; k < size; k++)
             {
-                printf("a: %f index: %d, b: %f index2: %d\n",a[(size*row)+k], b_trans[(size*row)+k], (size*row)+k, (size*row)+k);
+                // printf("a: %f index: %d, b: %f index2: %d\n",a[(size*row)+k], b_trans[(size*row)+k], (size*row)+k, (size*row)+k);
                 c[(row * size) + col] += a[(size * row ) + k] * b_trans[(size * col ) + k];
             }
         }
