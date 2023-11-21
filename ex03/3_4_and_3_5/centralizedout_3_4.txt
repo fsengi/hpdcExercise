@@ -1,0 +1,53 @@
+Matrix multiplication completed.
+size;2000;time;19.685784;s;performance;0.812769;GFLOPS/s
+sum: 18641344665002815488.000000Matrix multiplication completed.
+Matrix multiplication completed.
+size;2000;time;19.945753;s;performance;0.802176;GFLOPS/s
+sum: 18641344665002815488.000000Matrix multiplication completed.
+Matrix multiplication completed.
+Matrix multiplication completed.
+Matrix multiplication completed.
+size;2000;time;10.055204;s;performance;1.591216;GFLOPS/s
+sum: 18641344665002815488.000000Matrix multiplication completed.
+Matrix multiplication completed.
+Matrix multiplication completed.
+Matrix multiplication completed.
+Matrix multiplication completed.
+Matrix multiplication completed.
+size;2000;time;6.754324;s;performance;2.368853;GFLOPS/s
+sum: 18614719310339780608.000000Matrix multiplication completed.
+Matrix multiplication completed.
+Matrix multiplication completed.
+Matrix multiplication completed.
+Matrix multiplication completed.
+Matrix multiplication completed.
+Matrix multiplication completed.
+Matrix multiplication completed.
+size;2000;time;5.086748;s;performance;3.145428;GFLOPS/s
+sum: 18641344665002815488.000000Matrix multiplication completed.
+Matrix multiplication completed.
+Matrix multiplication completed.
+Matrix multiplication completed.
+Matrix multiplication completed.
+Matrix multiplication completed.
+Matrix multiplication completed.
+Matrix multiplication completed.
+Matrix multiplication completed.
+Matrix multiplication completed.
+size;2000;time;4.085006;s;performance;3.916763;GFLOPS/s
+sum: 18641344665002815488.000000Matrix multiplication completed.
+Matrix multiplication completed.
+Matrix multiplication completed.
+Matrix multiplication completed.
+Matrix multiplication completed.
+Matrix multiplication completed.
+Matrix multiplication completed.
+Matrix multiplication completed.
+Matrix multiplication completed.
+Matrix multiplication completed.
+Matrix multiplication completed.
+Matrix multiplication completed.
+size;2000;time;3.399326;s;performance;4.706815;GFLOPS/s
+sum: 18534939150372728832.000000Matrix multiplication completed.
+size;2000;time;37.555715;s;performance;0.426034;GFLOPS/s
+sum: 18641344665002815488.000000Matrix multiplication completed.
