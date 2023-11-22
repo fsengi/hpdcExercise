@@ -1,15 +1,18 @@
-#define N 128
+#include <stdlib.h>
+#include <stdio.h>
+
+#define N 10
 #define OUTLAY 1
-#define TIME 1
+#define TIME 10
 #define PHI 0.24
 
-void printGrid(double ** grid, int size);
+void printGrid(double *grid, int size);
 
 int main(int argc ,char * argv[])
 {
     int size, outergrid, time, timeIter = 0;
     int row, col;
-    double **gridNew, **gridOld, **temp;
+    double *gridNew, *gridOld;
     // get args
     if (argc > 2) {
         size = atoi(argv[1]);  // Parse size from command line argument
@@ -22,37 +25,42 @@ int main(int argc ,char * argv[])
     outergrid = size + 2*OUTLAY;
 
     // allocate grid
-    gridOld = (double**)malloc(size * sizeof(double*));
-    gridNew = (double**)malloc(size * sizeof(double*));
-    for(row = 0; row < size; row++)
-    {
-        gridOld[row] = (double*)calloc(outergrid * outergrid * sizeof(double));
-        gridNew[row] = (double*)calloc(outergrid * outergrid * sizeof(double));
-    }
+    gridOld = (double*)malloc(outergrid * outergrid * sizeof(double));
+    gridNew = (double*)malloc(outergrid * outergrid * sizeof(double));
+
     // initialize
-    for(col = 1; col < size; col++)
+    for(col = 0; col < outergrid; col++)
     {
         if (col > size/4 && col < 3*size/4)
         {
-            gridOld[col][1] = 127;
+            gridOld[1 * size + col] = 127;
         }
     }
     printGrid(gridOld, outergrid);
     
     for(time = 0; time < timeIter; time++)
     {
-        for(col = OUTLAY; col < size+OUTLAY; col++)
+        for(row = OUTLAY; row < size+OUTLAY; row++)
         {
-            for(row = OUTLAY; row < size+OUTLAY; row++)
+            for(col = OUTLAY; col < size+OUTLAY; col++)
             {
-                gridNew[col][row] = gridOld[col][row] + PHI * ((-4)*gridOld[col][row] + gridOld[col+1][row]+ gridOld[col-1][row]+ gridOld[col][row-1]+gridOld[col][row+1]);
-                if(gridNew[col][row]>127)
+                // if(col == 33)
+                // {
+                //     printf("-");
+                // }
+                gridNew[row * outergrid + col] = gridOld[row * outergrid + col] + PHI * ((-4)*gridOld[row * outergrid + col] + 
+                                                                                    gridOld[((row + 1) * outergrid) + col] + 
+                                                                                    gridOld[((row - 1) * outergrid) + col] + 
+                                                                                    gridOld[(row * outergrid) + col + 1] +
+                                                                                    gridOld[(row * outergrid) + col - 1]);
+
+                if(gridNew[row * size + col] > 127)
                 {
-                    gridNew[col][row] = 127;
+                    gridNew[row * size + col] = 127;
                 }
-                else if (gridNew[col][row]>127 < 0)
+                else if (gridNew[row * size + col] < 0)
                 {
-                    gridNew[col][row] = 0;
+                    gridNew[row * size + col] = 0;
                 }
             }
         }
@@ -61,15 +69,16 @@ int main(int argc ,char * argv[])
     }
 }
 
-void printGrid(double ** grid, int size)
+void printGrid(double *grid, int size)
 {
     int col, row;
-    for(col = 0; col < size+2*OUTLAY; col++)
+    for(row = 0; row < size; row++)
     {
-        for(row = 0; row < size+2*OUTLAY; row++)
+        for(col = 0; col < size; col++)
         {
-            printf("%d,", grid[col][row]);
+            printf("%lf;", grid[(row * size+2*OUTLAY) + col]);
         }
         printf("\n");
     }
+    printf("\n\n");
 }
