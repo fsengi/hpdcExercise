@@ -31,7 +31,7 @@ int main(int argc ,char * argv[])
     {
         if (col >= size/4 && col <= 3*size/4)
         {
-            gridOld[1 * size + col] = 127;
+            gridOld[col] = 127;
         }        
     }
     printGrid(gridOld, size);
