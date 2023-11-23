@@ -12,7 +12,7 @@
 # nodes=(1 2)
 # nodes=(2)
 # Define an array of tasks per node configurations (e.g., tasks_per_node=(4 8 16))
-tasks_per_node=( 2 4 6 7 8 9 10 11 12 14 16)
+# tasks_per_node=( 2 4 6 7 8 9 10 11 12 14 16)
 # tasks_per_node=( 2 )
 
 module load devtoolset/10 mpi/open-mpi-4.0.5
@@ -21,4 +21,4 @@ module load devtoolset/10 mpi/open-mpi-4.0.5
 # done
 
 
-srun ./test 128 150 >> data.txt
+srun ./test 128 250 >> data.txt
