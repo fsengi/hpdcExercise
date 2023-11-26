@@ -53,11 +53,11 @@ int main(int argc ,char * argv[])
     // printf("size: %d\n", size);
    
     int datarowsPerThread = (int)(size / number_of_processes);
-    // if(rank == number_of_processes)
+    // if(rank+1 == number_of_processes)
     // {
     //     datarowsPerThread += size % datarowsPerThread;
     // }
-    // printf("datarowsPerThread: %d\n", datarowsPerThread);
+    printf("datarowsPerThread: %d\n", datarowsPerThread);
     if(rank == 0)
     {
         // setup matrices
@@ -90,12 +90,16 @@ int main(int argc ,char * argv[])
         start = MPI_Wtime();
     }
 
+    // MPI_Scatterv(B_trans, size * datarowsPerThread, size * datarowsPerThread * rank, MPI_DOUBLE, b_trans_sub, size * datarowsPerThread, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+
+    
     MPI_Scatter(B_trans, size * datarowsPerThread, MPI_DOUBLE, b_trans_sub, size * datarowsPerThread, MPI_DOUBLE, 0, MPI_COMM_WORLD);
     
     MPI_Barrier(MPI_COMM_WORLD);
     // printf("B: %f, %d", B_trans, size*datarowsPerThread);
     
     matrixMultiplyTransposeDist(a_sub , B_trans , c_sub, datarowsPerThread, size);
+    MPI_Barrier(MPI_COMM_WORLD);
 
     MPI_Gather(c_sub, size * datarowsPerThread, MPI_DOUBLE, C, size * datarowsPerThread, MPI_DOUBLE, 0, MPI_COMM_WORLD);
     
@@ -106,7 +110,7 @@ int main(int argc ,char * argv[])
         // printOut("C",C,size);
         // printOutSub("B", B_trans, size, datarowsPerThread);
         // printOutSub("A", A, size, datarowsPerThread);
-        // printOutSub("C", C, size, size);
+        printOutSub("C", C, size, size);
 
         stop = MPI_Wtime();
         double time_taken = (double) stop - start;
@@ -128,9 +132,9 @@ int main(int argc ,char * argv[])
     else
     {
 
-        // printOut("a", a_sub, size*datarowsPerThread);
+        printOutSub("a", a_sub, size, datarowsPerThread);
         // printf("c rank: %d datarowsPerThread: %d", rank,datarowsPerThread );
-        // printOutSub("c", c_sub, size, datarowsPerThread);
+        printOutSub("c", c_sub, size, datarowsPerThread);
         free(a_sub);
         free(b_trans_sub);
         free(c_sub);
@@ -165,7 +169,6 @@ void initRandMatrix(double* a, double* b, double* b_trans, int size)
             a[(row * size) + col] = (double)rand() / RAND_MAX;
             b[(row * size) + col] = (double)rand() / RAND_MAX;
             b_trans[(size * col) + row] = b[(row * size) + col];
-            
         }
     }
 }
@@ -267,6 +270,7 @@ void printOutSub(char* name, double* a, int size, int datarows)
 void matrixMultiplyTransposeDist(double* a, double* b_trans, double* c, int datarowsPerThread, int size)
 {
     int row, col, k;
+    printf("matrixMultiplyTransposeDist datarowsPerThread: %d", datarowsPerThread);
     for(row = 0;  row < datarowsPerThread; row++)
     {
         for(col = 0; col < size; col++)
