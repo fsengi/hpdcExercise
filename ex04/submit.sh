@@ -16,9 +16,5 @@
 # tasks_per_node=( 2 )
 
 module load devtoolset/10 mpi/open-mpi-4.0.5
-# for num_tasks_per_node in "${tasks_per_node[@]}"; do
-#     srun --nodes=2 --ntasks-per-node=$num_tasks_per_node ./test 2000 2000 >> centralicedout_3_3.txt
-# done
 
-
-srun ./test 128 250 >> data.txt
+srun ./heat >> data.txt
