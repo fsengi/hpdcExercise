@@ -139,6 +139,8 @@ int main(int argc ,char * argv[]) {
     
     MPI_Scatter(gridOld, size * rowsPerProcess, MPI_DOUBLE, subGridOld, size * rowsPerProcess, MPI_DOUBLE, 0, new_communicator);
 
+    double val;
+    
     for (time = 0; time < timeIter; time++) 
     {
         for (row = 0; row < rowsPerProcess; row++) 
@@ -166,12 +168,17 @@ int main(int argc ,char * argv[]) {
                     upVal = subGridOld[((row + 1) * size) + col];
                     downVal = subGridOld[((row - 1) * size) + col];
                 }
-                subGridNew[row * size + col] = subGridOld[row * size + col] +
+                
+                val = subGridOld[row * size + col] +
                                              PHI * ((-4.0) * subGridOld[row * size + col] +
                                                     upVal +
                                                     downVal +
                                                     subGridOld[(row * size) + col + 1] +
                                                     subGridOld[(row * size) + col - 1]);
+                if(!isnan(val))
+                {
+                    subGridNew[row * size + col] = 0;
+                }
             }
         }
 
