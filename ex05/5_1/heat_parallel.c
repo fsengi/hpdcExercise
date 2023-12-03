@@ -137,10 +137,14 @@ int main(int argc ,char * argv[]) {
     double *subGridUpNew = (double *)malloc(size * sizeof(double));
     double *subGridDownNew = (double *)malloc(size * sizeof(double));
     
+
     MPI_Scatter(gridOld, size * rowsPerProcess, MPI_DOUBLE, subGridOld, size * rowsPerProcess, MPI_DOUBLE, 0, new_communicator);
 
+    if(rank == 0)
+    {
+        gettimeofday(&start, NULL);
+    }
     double val;
-    
     for (time = 0; time < timeIter; time++) 
     {
         for (row = 0; row < rowsPerProcess; row++) 
@@ -225,6 +229,15 @@ int main(int argc ,char * argv[]) {
         subGridNew = temp;
     }
 
+    double elapsed_time;
+    if(rank == 0)
+    {
+        gettimeofday(&end, NULL);
+
+        elapsed_time = (end.tv_sec - start.tv_sec) + (end.tv_usec - start.tv_usec) / 1e6;
+    }
+
+
     // MPI_Barrier(new_communicator);
 
     //  MPI_Gatherv(subGridNew, counts[rank], MPI_DOUBLE, (rank==0?gridNew:NULL), (rank==0?counts:NULL), (rank==0?displacement:NULL), MPI_DOUBLE, 0, new_communicator);
@@ -265,7 +278,8 @@ int main(int argc ,char * argv[]) {
     // printf("%dx%d\t\t%.6lf\t\t%.0lf\t\t%.3lf\n", size, size, avg_time, total_flops, gflops);
     if(rank == 0)
     {
-        printf("size: %d, np: %d complete\n", size, number_of_processes);
+
+        printf("size: %d, np: %d complete, time: %f\n", size, number_of_processes,elapsed_time);
     }
     MPI_Finalize();
     free(gridNew);
