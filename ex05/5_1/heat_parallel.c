@@ -4,6 +4,8 @@
 #include <mpi.h>
 #include <stdbool.h>
 #include <string.h>
+#include <unistd.h>
+#include <math.h>
 
 #define N 10
 #define OUTLAY 1
@@ -12,19 +14,18 @@
 #define GIFFLAG 0
 // #define DEBUG
 
-void printGrid(double *grid, int size);
-void printSubGrid(double *grid, int size, int rows, int rank);
-void printSubGridName(char* name, double *grid, int size, int rows, int rank, int time);
-double measureTime(int size, int timeIter);
+void printGrid(float*grid, int size);
+void printSubGrid(float*grid, int size, int rows, int rank);
+void printSubGridName(char* name, float*grid, int size, int rows, int rank, int time);
+float measureTime(int size, int timeIter);
 
 int main(int argc ,char * argv[]) {
     int size, time, timeIter, number_of_processes, gifFlag, rank = 0;
     int row, col;
-    double *gridNew, *gridOld, avg_time;
+    float*gridNew, *gridOld;
     struct timeval start, end;
     // Declare our neighbours
     enum DIRECTIONS {DOWN, UP};
-    char* neighbours_names[2] = {"down", "up"};
     int neighbours_ranks[2];
     MPI_Status status;
 
@@ -71,8 +72,13 @@ int main(int argc ,char * argv[]) {
         }
 
         // allocate grid
-        gridOld = (double *)malloc(size * size * sizeof(double));
-        gridNew = (double *)malloc(size * size * sizeof(double));
+        gridOld = (float*)malloc(size * size * sizeof(float));
+        gridNew = (float*)malloc(size * size * sizeof(float));
+
+        if (gridNew == NULL || gridOld == NULL)
+        {
+            printf("malloc "); fflush(stdout);
+        }
 
         // initialize
         for (col = 0; col < size; col++) 
@@ -127,31 +133,37 @@ int main(int argc ,char * argv[]) {
         rowsPerProcess = rowsPerProcess + diff;
     }
 #ifdef DEBUG
-    printf("rank: %d rowsPerProcess: %d\n", rank, rowsPerProcess);
+        printf("rank: %d rowsPerProcess: %d\n", rank, rowsPerProcess);
 #endif
-    double *subGridOld = (double *)malloc(rowsPerProcess * size * sizeof(double));
-    double *subGridNew = (double *)malloc(rowsPerProcess * size * sizeof(double));
-    
-    double *subGridUpOld = (double *)malloc(size * sizeof(double));
-    double *subGridDownOld = (double *)malloc(size * sizeof(double));
-    double *subGridUpNew = (double *)malloc(size * sizeof(double));
-    double *subGridDownNew = (double *)malloc(size * sizeof(double));
-    
 
-    MPI_Scatter(gridOld, size * rowsPerProcess, MPI_DOUBLE, subGridOld, size * rowsPerProcess, MPI_DOUBLE, 0, new_communicator);
+    MPI_Barrier(new_communicator);
+
+    float*subGridOld = (float*)malloc(rowsPerProcess * size * sizeof(float));
+    float*subGridNew = (float*)malloc(rowsPerProcess * size * sizeof(float));
+    
+    float*subGridUpOld = (float*)malloc(size * sizeof(float));
+    float*subGridDownOld = (float*)malloc(size * sizeof(float));
+    float*subGridUpNew = (float*)malloc(size * sizeof(float));
+    float*subGridDownNew = (float*)malloc(size * sizeof(float));
+
+
+
+    MPI_Barrier(new_communicator);
+
+    MPI_Scatter(gridOld, size * rowsPerProcess, MPI_FLOAT, subGridOld, size * rowsPerProcess, MPI_FLOAT, 0, new_communicator);
 
     if(rank == 0)
     {
         gettimeofday(&start, NULL);
     }
-    double val;
+    float val;
     for (time = 0; time < timeIter; time++) 
     {
         for (row = 0; row < rowsPerProcess; row++) 
         {
             for (col = OUTLAY; col < size - OUTLAY; col++) 
             {
-                double upVal, downVal = 0;
+                float upVal, downVal = 0;
                 if((rank == 0 && row == 0) || (rank == number_of_processes-1 && row == rowsPerProcess-1))
                 {
                     subGridNew[row * size + col] = subGridOld[row * size + col];
@@ -186,37 +198,40 @@ int main(int argc ,char * argv[]) {
             }
         }
 
-        memcpy(subGridUpOld, &subGridNew, size*sizeof(double));
-        memcpy(subGridDownOld, &subGridNew[(rowsPerProcess-1)*size], size*sizeof(double));
-       
+        memcpy(subGridUpOld, &subGridNew, size*sizeof(float));
+        memcpy(subGridDownOld, &subGridNew[(rowsPerProcess-1)*size], size*sizeof(float));
+
+        MPI_Barrier(new_communicator);
+
         if(rank == 0)
         { 
             MPI_Request request;
             
-            MPI_Isend(subGridDownOld, size, MPI_DOUBLE, neighbours_ranks[UP], 0, new_communicator, &request);
-            MPI_Recv(subGridDownNew, size, MPI_DOUBLE, neighbours_ranks[UP], 0, new_communicator, &status);
+            MPI_Isend(subGridDownOld, size, MPI_FLOAT, neighbours_ranks[UP], 0, new_communicator, &request);
+            MPI_Recv(subGridDownNew, size, MPI_FLOAT, neighbours_ranks[UP], 0, new_communicator, &status);
         }
         else if (rank == number_of_processes-1)
         {
             MPI_Request request;
-            MPI_Isend(subGridUpOld, size, MPI_DOUBLE, neighbours_ranks[DOWN], 0, new_communicator, &request);
-            MPI_Recv(subGridUpNew, size, MPI_DOUBLE, neighbours_ranks[DOWN], 0, new_communicator, &status);
+            MPI_Isend(subGridUpOld, size, MPI_FLOAT, neighbours_ranks[DOWN], 0, new_communicator, &request);
+            MPI_Recv(subGridUpNew, size, MPI_FLOAT, neighbours_ranks[DOWN], 0, new_communicator, &status);
         }
         else
         {
             
             MPI_Request request;
-            MPI_Isend(subGridDownOld, size, MPI_DOUBLE, neighbours_ranks[UP], 0, new_communicator, &request);
-            MPI_Recv(subGridDownNew, size, MPI_DOUBLE, neighbours_ranks[UP], 0, new_communicator, &status);
+            MPI_Isend(subGridDownOld, size, MPI_FLOAT, neighbours_ranks[UP], 0, new_communicator, &request);
+            MPI_Recv(subGridDownNew, size, MPI_FLOAT, neighbours_ranks[UP], 0, new_communicator, &status);
 
-            MPI_Isend(subGridUpOld, size, MPI_DOUBLE, neighbours_ranks[DOWN], 0, new_communicator, &request);
-            MPI_Recv(subGridUpNew, size, MPI_DOUBLE, neighbours_ranks[DOWN], 0, new_communicator, &status);
+            MPI_Isend(subGridUpOld, size, MPI_FLOAT, neighbours_ranks[DOWN], 0, new_communicator, &request);
+            MPI_Recv(subGridUpNew, size, MPI_FLOAT, neighbours_ranks[DOWN], 0, new_communicator, &status);
         }
-        MPI_Barrier(new_communicator);
 
         if(gifFlag == 1 || time == timeIter-2)
         {
-            MPI_Gatherv(subGridNew, counts[rank], MPI_DOUBLE, (rank==0?gridNew:NULL), (rank==0?counts:NULL), (rank==0?displacement:NULL), MPI_DOUBLE, 0, new_communicator);
+            MPI_Barrier(new_communicator);
+
+            MPI_Gatherv(subGridNew, counts[rank], MPI_FLOAT, (rank==0?gridNew:NULL), (rank==0?counts:NULL), (rank==0?displacement:NULL), MPI_FLOAT, 0, new_communicator);
             if(rank == 0)
             {
                 // printGrid(gridNew, size);
@@ -224,23 +239,23 @@ int main(int argc ,char * argv[]) {
         }
         // Swap grids
 
-        double *temp = subGridOld;
+        float*temp = subGridOld;
         subGridOld = subGridNew;
         subGridNew = temp;
     }
 
-    double elapsed_time;
+    float elapsed_time;
     if(rank == 0)
     {
         gettimeofday(&end, NULL);
 
-        elapsed_time = (end.tv_sec - start.tv_sec) + (end.tv_usec - start.tv_usec) / 1e6;
+        elapsed_time = (end.tv_sec - start.tv_sec) + (end.tv_usec - start.tv_usec) / (1e6 * 100);
     }
 
 
     // MPI_Barrier(new_communicator);
 
-    //  MPI_Gatherv(subGridNew, counts[rank], MPI_DOUBLE, (rank==0?gridNew:NULL), (rank==0?counts:NULL), (rank==0?displacement:NULL), MPI_DOUBLE, 0, new_communicator);
+    //  MPI_Gatherv(subGridNew, counts[rank], MPI_FLOAT, (rank==0?gridNew:NULL), (rank==0?counts:NULL), (rank==0?displacement:NULL), MPI_FLOAT, 0, new_communicator);
 
     // if(rank == 0)
     // {
@@ -262,18 +277,18 @@ int main(int argc ,char * argv[]) {
     // free(gridOld);
     // free(gridNew);
 
-    // double elapsed_time = (end.tv_sec - start.tv_sec) + (end.tv_usec - start.tv_usec) / 1e6;
+    // floatelapsed_time = (end.tv_sec - start.tv_sec) + (end.tv_usec - start.tv_usec) / 1e6;
 
     // avg_time = elapsed_time / timeIter;
 
     // // Calculate FLOPs per iteration
-    // double flops_per_iteration = 7.0 * size * size;
+    // floatflops_per_iteration = 7.0 * size * size;
 
     // // Calculate total FLOPs for the current size
-    // double total_flops = flops_per_iteration * timeIter;
+    // floattotal_flops = flops_per_iteration * timeIter;
 
     // // Calculate GFLOP/s
-    // double gflops = flops_per_iteration / (avg_time * 1e9);
+    // floatgflops = flops_per_iteration / (avg_time * 1e9);
 
     // printf("%dx%d\t\t%.6lf\t\t%.0lf\t\t%.3lf\n", size, size, avg_time, total_flops, gflops);
     if(rank == 0)
@@ -292,7 +307,7 @@ int main(int argc ,char * argv[]) {
     return 0;
 }
 
-void printGrid(double *grid, int size)
+void printGrid(float*grid, int size)
 {
     int col, row;
     for(row = 0; row < size; row++)
@@ -307,7 +322,7 @@ void printGrid(double *grid, int size)
     fflush(stdout);
 }
 
-void printSubGrid(double *grid, int size, int rows, int rank)
+void printSubGrid(float*grid, int size, int rows, int rank)
 {
     printf("rank: %d\n", rank);
     int col, row;
@@ -323,7 +338,7 @@ void printSubGrid(double *grid, int size, int rows, int rank)
     fflush(stdout);
 }
 
-void printSubGridName(char* name, double *grid, int size, int rows, int rank, int time)
+void printSubGridName(char* name, float*grid, int size, int rows, int rank, int time)
 {
     printf("name: %s, rank: %d, time: %d\n", name, rank, time);
     int col, row;
