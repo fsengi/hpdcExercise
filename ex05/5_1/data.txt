@@ -1,0 +1,34 @@
+script size 128 tpN 2
+size: 128, np: 2 complete, time: 0.000269
+script size 128 tpN 4
+size: 128, np: 4 complete, time: 0.000114
+script size 128 tpN 6
+size: 128, np: 6 complete, time: 0.000161
+script size 128 tpN 8
+size: 128, np: 8 complete, time: 0.000115
+script size 128 tpN 10
+size: 128, np: 10 complete, time: 0.000139
+script size 128 tpN 12
+size: 128, np: 12 complete, time: 0.000155
+script size 512 tpN 2
+size: 512, np: 2 complete, time: 0.004215
+script size 512 tpN 4
+size: 512, np: 4 complete, time: 0.001942
+script size 512 tpN 6
+size: 512, np: 6 complete, time: 0.001012
+script size 512 tpN 8
+size: 512, np: 8 complete, time: 0.000801
+script size 512 tpN 10
+size: 512, np: 10 complete, time: 0.000747
+script size 512 tpN 12
+size: 512, np: 12 complete, time: 0.000773
+script size 1024 tpN 2
+size: 1024, np: 2 complete, time: 0.014077
+script size 1024 tpN 4
+size: 1024, np: 4 complete, time: 0.006043
+script size 1024 tpN 6
+size: 1024, np: 6 complete, time: 0.003823
+script size 1024 tpN 8
+size: 1024, np: 8 complete, time: 0.002795
+script size 1024 tpN 10
+script size 1024 tpN 10
