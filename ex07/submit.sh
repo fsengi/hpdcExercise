@@ -3,18 +3,18 @@
 #SBATCH --job-name=nBody
 #SBATCH --partition=exercise_hpc   # partition (queue)
 #SBATCH -t 0-1:00             # time limit: (D-HH:MM)
-#SBATCH --nodes=1
+#SBATCH --nodes=1-6
 #SBATCH --ntasks-per-node=12
 #SBATCH --output=nBody.out     # file to collect standard output
 #SBATCH --error=nBody.err      # file to collect standard errors
 
 
 # 2 4 8 12 24 48 64
-nodes=(1 1 1 1 2 3 4 5 6)
-tasks_per_node=(2 4 8 12 24 36 48 60 72)
+nodes=(1 1 1 1 2 3 4 6)
+tasks_per_node=(2 4 8 12 24 36 48 64)
 
-rm finaldata.txt
-rm data1.txt
+# rm finaldata.txt
+# rm data1.txt
 
 length=${#nodes[@]}
 # module load devtoolset/10 mpi/open-mpi-4.1.6

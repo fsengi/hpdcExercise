@@ -51,6 +51,7 @@ Nbody,512,numberofProcesses,36,time,0.268916s
 Nbody,1024,numberofProcesses,36,time,0.398965s
 Nbody,2048,numberofProcesses,36,time,1.005762s
 Nbody,4096,numberofProcesses,36,time,3.037286s
+Nbody,8192,numberofProcesses,36,time,11.332750s
 Nbody,16384,numberofProcesses,36,time,44.122171s
 Nbody,32768,numberofProcesses,36,time,174.627492s
 Nbody,128,numberofProcesses,48,time,0.146441s
@@ -80,5 +81,3 @@ Nbody,4096,numberofProcesses,72,time,2.235666s
 Nbody,8192,numberofProcesses,72,time,6.565594s
 Nbody,16384,numberofProcesses,72,time,23.456188s
 Nbody,32768,numberofProcesses,72,time,90.901715s
-
-
